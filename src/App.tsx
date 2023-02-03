@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
+import { IoChevronBackCircle, IoChevronForwardCircle } from 'react-icons/io5';
 import planet from './assets/planet.png';
 import rocket from './assets/rocket.png';
 
 const App = () => {
+  const [earthStage, setEarthStage] = useState(0);
   const [planetSize, setPlanetSize] = useState<any>();
   const [rocketSize, setRocketSize] = useState<any>();
 
@@ -35,6 +37,18 @@ const App = () => {
     });
   };
 
+  const backEarthStage = () => {
+    if (earthStage > 0) {
+      setEarthStage((old) => old - 1);
+    }
+  };
+
+  const forwardEarthStage = () => {
+    if (earthStage < 8) {
+      setEarthStage((old) => old + 1);
+    }
+  };
+
   useEffect(() => {
     window.addEventListener('resize', updatePlanetSize);
     window.addEventListener('resize', updateRocketSize);
@@ -56,7 +70,7 @@ const App = () => {
         className="h-full w-full bg-[url('src/assets/space.jpg')] bg-fixed bg-center bg-no-repeat bg-cover bg-opacity-20"
       >
         <h1 className='text-5xl'>Bem vindo, viajante!</h1>
-        <p>Sou o Pedro</p>
+        <p>Sou o Pedro, prazer</p>
         <img
           ref={rocketRef}
           onLoad={onRocketLoad}
@@ -75,9 +89,44 @@ const App = () => {
           onLoad={onPlanetLoad}
           src={planet}
           alt=''
-          className='absolute w-full'
-          style={{ bottom: `calc(-${planetSize?.height}px / 1.5)` }}
+          className='absolute w-full transition duration-1000'
+          style={{
+            bottom: `calc(-${planetSize?.height}px / 1.5)`,
+            transform: `rotate(${earthStage * 45}deg)`,
+          }}
         />
+        <div
+          className='absolute border border-[#28272F] rounded'
+          style={{
+            height: `${planetSize?.height / 8}px`,
+            width: `${planetSize?.width / 3}px`,
+            left: `calc(50% - ${planetSize?.width / 6}px)`,
+            bottom: `${planetSize?.height / 60}px`,
+            backgroundColor: 'rgba(50, 50, 50, 0.9)',
+          }}
+        ></div>
+        <button onClick={backEarthStage}>
+          <IoChevronBackCircle
+            className='absolute'
+            style={{
+              height: '60px',
+              width: '60px',
+              left: `calc(50% - ${planetSize?.width / 3.5}px)`,
+              bottom: `${planetSize?.height / 20}px`,
+            }}
+          />
+        </button>
+        <button onClick={forwardEarthStage}>
+          <IoChevronForwardCircle
+            className='absolute'
+            style={{
+              height: '60px',
+              width: '60px',
+              right: `calc(50% - ${planetSize?.width / 3.5}px)`,
+              bottom: `${planetSize?.height / 20}px`,
+            }}
+          />
+        </button>
       </div>
     </div>
   );
