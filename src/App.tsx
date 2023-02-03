@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { IoChevronBackCircle, IoChevronForwardCircle } from 'react-icons/io5';
+import { IoChevronBack, IoChevronForward } from 'react-icons/io5';
 import planet from './assets/planet.png';
 import rocket from './assets/rocket.png';
 
@@ -67,7 +67,7 @@ const App = () => {
           backgroundImage:
             'linear-gradient(rgba(40, 39, 47, 0.9), rgba(40, 39, 47, 0.9)), url(src/assets/space2.jpg)',
         }}
-        className="h-full w-full bg-[url('src/assets/space.jpg')] bg-fixed bg-center bg-no-repeat bg-cover bg-opacity-20"
+        className="h-full w-full flex flex-col items-center justify-center bg-[url('src/assets/space.jpg')] bg-fixed bg-center bg-no-repeat bg-cover bg-opacity-20"
       >
         <h1 className='text-5xl'>Bem vindo, viajante!</h1>
         <p>Sou o Pedro, prazer</p>
@@ -80,7 +80,7 @@ const App = () => {
           style={{
             width: `calc(${planetSize?.width}px / 16)`,
             left: `calc(50% - ${rocketSize?.width}px / 2)`,
-            bottom: `calc(${planetSize?.height}px / 6)`,
+            bottom: `calc(${planetSize?.height}px / 3.75)`,
           }}
         />
         <img
@@ -91,41 +91,39 @@ const App = () => {
           alt=''
           className='absolute w-full transition duration-1000'
           style={{
-            bottom: `calc(-${planetSize?.height}px / 1.5)`,
-            transform: `rotate(${earthStage * 45}deg)`,
+            bottom: `calc(-${planetSize?.height}px / 1.75)`,
+            transform: `rotate(-${earthStage * 45}deg)`,
           }}
         />
         <div
           className='absolute border border-[#28272F] rounded'
           style={{
-            height: `${planetSize?.height / 8}px`,
-            width: `${planetSize?.width / 3}px`,
-            left: `calc(50% - ${planetSize?.width / 6}px)`,
-            bottom: `${planetSize?.height / 60}px`,
+            height: `${planetSize?.height / 5}px`,
+            width: `${planetSize?.width / 2.25}px`,
+            left: `calc(50% - ${planetSize?.width / 4.5}px)`,
+            bottom: `${planetSize?.height / 40}px`,
             backgroundColor: 'rgba(50, 50, 50, 0.9)',
           }}
         ></div>
-        <button onClick={backEarthStage}>
-          <IoChevronBackCircle
-            className='absolute'
-            style={{
-              height: '60px',
-              width: '60px',
-              left: `calc(50% - ${planetSize?.width / 3.5}px)`,
-              bottom: `${planetSize?.height / 20}px`,
-            }}
-          />
+        <button
+          onClick={backEarthStage}
+          className='absolute h-12 w-12 rounded-full group hover:bg-[#FFFFFFAA] transition'
+          style={{
+            left: `calc(50% - ${planetSize?.width / 2.8}px)`,
+            bottom: `${planetSize?.height / 10}px`,
+          }}
+        >
+          <IoChevronBack className='w-full h-full group-hover:text-[#28272F] transition' />
         </button>
-        <button onClick={forwardEarthStage}>
-          <IoChevronForwardCircle
-            className='absolute'
-            style={{
-              height: '60px',
-              width: '60px',
-              right: `calc(50% - ${planetSize?.width / 3.5}px)`,
-              bottom: `${planetSize?.height / 20}px`,
-            }}
-          />
+        <button
+          onClick={forwardEarthStage}
+          className='absolute h-12 w-12 rounded-full group hover:bg-[#FFFFFFAA] transition'
+          style={{
+            right: `calc(50% - ${planetSize?.width / 2.8}px)`,
+            bottom: `${planetSize?.height / 10}px`,
+          }}
+        >
+          <IoChevronForward className='w-full h-full group-hover:text-[#28272F] transition' />
         </button>
       </div>
     </div>
