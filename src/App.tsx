@@ -1,18 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
-import { IoChevronBack, IoChevronForward } from 'react-icons/io5';
+import { IoChevronBackSharp, IoChevronForwardSharp } from 'react-icons/io5';
 import planetImg from './assets/planet.png';
-import rocketImg from './assets/rocket.png';
 import MainContent from './components/MainContent';
 import Planet from './components/Planet';
-import Rocket from './components/Rocket';
+import useWindowSize from './hooks/useWindowSize';
 
 const App = () => {
+  const windowSize = useWindowSize();
+
   const [earthStage, setEarthStage] = useState(0);
   const [planetSize, setPlanetSize] = useState<any>();
-  const [rocketSize, setRocketSize] = useState<any>();
 
   const planetRef = useRef<any>(null);
-  const rocketRef = useRef<any>(null);
 
   const updatePlanetSize = () =>
     setPlanetSize({
@@ -20,21 +19,8 @@ const App = () => {
       width: planetRef.current.clientWidth,
     });
 
-  const updateRocketSize = () =>
-    setRocketSize({
-      height: rocketRef.current.clientHeight,
-      width: rocketRef.current.clientWidth,
-    });
-
   const onPlanetLoad = ({ target: img }: any) => {
     setPlanetSize({
-      height: img.offsetHeight,
-      width: img.offsetWidth,
-    });
-  };
-
-  const onRocketLoad = ({ target: img }: any) => {
-    setRocketSize({
       height: img.offsetHeight,
       width: img.offsetWidth,
     });
@@ -54,17 +40,14 @@ const App = () => {
 
   useEffect(() => {
     window.addEventListener('resize', updatePlanetSize);
-    window.addEventListener('resize', updateRocketSize);
     updatePlanetSize();
-    updateRocketSize();
     return () => {
       window.removeEventListener('resize', updatePlanetSize);
-      window.removeEventListener('resize', updateRocketSize);
     };
   }, []);
 
   return (
-    <div className='relative h-screen w-screen bg-[#28272F] text-white font-poppins overflow-hidden'>
+    <div className='relative h-screen w-screen bg-[#28272F] text-white font-bungee overflow-hidden'>
       <div
         style={{
           backgroundImage:
@@ -72,45 +55,36 @@ const App = () => {
         }}
         className="h-full w-full bg-[url('src/assets/space.jpg')] bg-fixed bg-center bg-no-repeat bg-cover bg-opacity-20"
       >
-        <div className='h-1/2 w-full flex flex-col items-center justify-center'>
-          <h1 className='p-8 text-5xl border-y-2 '>Bem vindo, viajante!</h1>
-          <p>Sou o Pedro, prazer</p>
-          <Rocket
-            imgRef={rocketRef}
-            imgOnLoad={onRocketLoad}
-            imgSrc={rocketImg}
-            rocketSize={rocketSize}
-            planetSize={planetSize}
-          />
-          <Planet
-            imgRef={planetRef}
-            imgOnLoad={onPlanetLoad}
-            imgSrc={planetImg}
-            planetSize={planetSize}
-            earthStage={earthStage}
-          />
-          <MainContent planetSize={planetSize} earthStage={earthStage} />
-          {/* <button
-            onClick={backEarthStage}
-            className='absolute h-12 w-12 rounded-full group hover:bg-[#FFFFFFAA] transition'
-            style={{
-              left: `calc(50% - ${planetSize?.width / 2.8}px)`,
-              bottom: `${planetSize?.height / 10}px`,
-            }}
-          >
-            <IoChevronBack className='w-full h-full group-hover:text-[#28272F] transition' />
-          </button>
-          <button
-            onClick={forwardEarthStage}
-            className='absolute h-12 w-12 rounded-full group hover:bg-[#FFFFFFAA] transition'
-            style={{
-              right: `calc(50% - ${planetSize?.width / 2.8}px)`,
-              bottom: `${planetSize?.height / 10}px`,
-            }}
-          >
-            <IoChevronForward className='w-full h-full group-hover:text-[#28272F] transition' />
-          </button> */}
+        <div className='h-[calc(100%-320px)] w-full flex flex-col items-center text-center'>
+          <p className='text-5xl mt-20 py-8 border-y'>Bem vindo, viajante!</p>
+          <p className='text-xl mt-12'>Sou o Pedro, prazer</p>
         </div>
+        <Planet
+          imgRef={planetRef}
+          imgOnLoad={onPlanetLoad}
+          imgSrc={planetImg}
+          planetSize={planetSize}
+          earthStage={earthStage}
+        />
+        <MainContent planetSize={planetSize} earthStage={earthStage} />
+        <button
+          onClick={backEarthStage}
+          className='absolute bottom-0 p-1 bg-[#28272F55] hover:bg-[#28272F99] transition text-xl'
+          style={{
+            height: windowSize?.width < 1024 ? '320px' : `calc(${planetSize?.height / 4}px)`,
+          }}
+        >
+          <IoChevronBackSharp size={28} />
+        </button>
+        <button
+          onClick={forwardEarthStage}
+          className='absolute bottom-0 right-0 p-1 bg-[#28272F55] hover:bg-[#28272F99] transition text-xl'
+          style={{
+            height: windowSize?.width < 1024 ? '320px' : `calc(${planetSize?.height / 4}px)`,
+          }}
+        >
+          <IoChevronForwardSharp size={28} />
+        </button>
       </div>
     </div>
   );
